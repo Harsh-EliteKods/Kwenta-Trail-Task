@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { FC, useCallback, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-
+import { UserButton } from '@clerk/nextjs'
 import CloseIcon from 'assets/svg/app/close.svg'
 import MenuIcon from 'assets/svg/app/menu.svg'
 import Button from 'components/Button'
@@ -16,7 +16,7 @@ import { setTradePanelDrawerOpen } from 'state/futures/reducer'
 import { setLeverageSide } from 'state/futures/smartMargin/reducer'
 import { useAppDispatch } from 'state/hooks'
 import { FixedFooterMixin } from 'styles/common'
-
+import { SignIn } from '@clerk/nextjs'
 import MobileMenuModal from './MobileMenuModal'
 import MobileWalletButton from './MobileWalletButton'
 

@@ -17,6 +17,7 @@ import BalanceActions from './BalanceActions'
 import ConnectionDot from './ConnectionDot'
 import NetworksSwitcher from './NetworksSwitcher'
 import WalletActions from './WalletActions'
+import { UserButton } from '@clerk/nextjs'
 
 const WalletButtons: React.FC = () => {
 	const { t } = useTranslation()
@@ -41,12 +42,13 @@ const WalletButtons: React.FC = () => {
 				size="small"
 				variant="flat"
 				noOutline
-				onClick={openConnectModal}
+				// onClick={openConnectModal}
 				data-testid="connect-wallet"
 				mono
 			>
-				<ConnectionDot />
-				{t('common.wallet.connect-wallet')}
+				{/* <ConnectionDot />
+				{t('common.wallet.connect-wallet')} */}
+				<UserButton afterSignOutUrl="/" />
 			</Button>
 		</>
 	)

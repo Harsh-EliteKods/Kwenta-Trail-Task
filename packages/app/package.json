@@ -16,6 +16,8 @@
 		"preinstall": "pnpm --filter \"@kwenta/sdk\" build"
 	},
 	"dependencies": {
+		"@clerk/nextjs": "^4.29.2",
+		"@clerk/themes": "^1.7.9",
 		"@eth-optimism/contracts": "0.5.37",
 		"@ethersproject/bignumber": "^5.7.0",
 		"@ethersproject/providers": "^5.7.2",
@@ -49,6 +51,7 @@
 		"next": "13.4.13",
 		"next-compose-plugins": "2.2.1",
 		"next-connect": "^0.13.0",
+		"next-international": "^1.2.2",
 		"next-transpile-modules": "10.0.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",

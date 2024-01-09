@@ -12,7 +12,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from 'styled-components'
 import { WagmiConfig } from 'wagmi'
-
+import { ClerkProvider } from '@clerk/nextjs'
 import ErrorNotifier from 'components/ErrorNotifier'
 import Connector from 'containers/Connector'
 import { chains, wagmiClient } from 'containers/Connector/config'
@@ -28,6 +28,8 @@ import { themes } from 'styles/theme'
 import { IGNORE_ERRORS } from 'utils/logError'
 import { getDesignTokens } from 'utils/theme'
 
+import { dark } from '@clerk/themes'
+// import './globals.css'
 import 'styles/main.css'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -74,21 +76,27 @@ const InnerApp: FC<AppPropsWithLayout> = ({ Component, pageProps }) => {
 	}, [])
 
 	return isReady ? (
-		<RainbowKitProvider
-			chains={chains}
-			theme={currentTheme === 'dark' ? darkTheme() : lightTheme()}
+		<ClerkProvider
+			appearance={{
+				baseTheme: dark,
+			}}
 		>
-			<ThemeProvider theme={theme}>
-				<MuiThemeProvider theme={muiTheme}>
-					<Layout>
-						<AcknowledgementModal />
-						<SystemStatus>{getLayout(<Component {...pageProps} />)}</SystemStatus>
-					</Layout>
-					<ErrorNotifier />
-					<ReactQueryDevtools position="top-left" />
-				</MuiThemeProvider>
-			</ThemeProvider>
-		</RainbowKitProvider>
+			<RainbowKitProvider
+				chains={chains}
+				theme={currentTheme === 'dark' ? darkTheme() : lightTheme()}
+			>
+				<ThemeProvider theme={theme}>
+					<MuiThemeProvider theme={muiTheme}>
+						<Layout>
+							<AcknowledgementModal />
+							<SystemStatus>{getLayout(<Component {...pageProps} />)}</SystemStatus>
+						</Layout>
+						<ErrorNotifier />
+						<ReactQueryDevtools position="top-left" />
+					</MuiThemeProvider>
+				</ThemeProvider>
+			</RainbowKitProvider>
+		</ClerkProvider>
 	) : null
 }
 

@@ -29,7 +29,6 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "next.config.js"
-, "src/state/futures/common", "src/state/futures/smartMargin"  ],
+    "next.config.js", "src/state/futures/common", "src/state/futures/smartMargin", "src/middleware.ts"  ],
   "types": ["node", "jest", "@testing-library/jest-dom"],
 }

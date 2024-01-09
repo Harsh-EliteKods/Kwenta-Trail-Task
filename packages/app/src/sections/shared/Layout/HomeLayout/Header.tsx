@@ -19,6 +19,7 @@ import RefButton from 'sections/shared/components/RefButton'
 
 import MobileUserMenu from '../AppLayout/Header/MobileUserMenu'
 import Logo from '../Logo'
+import { SignIn, UserButton } from '@clerk/nextjs'
 
 export type TPages = 'landing-page' | 'stats-page'
 
@@ -123,12 +124,15 @@ const Header = memo(() => {
 							</StyledTextButton>
 						))}
 					</Links>
-					<MenuContainer>
+					<MenuContainer style={{ display: 'flex', alignItems: 'center' }}>
 						<Link href={ROUTES.Markets.Home(DEFAULT_FUTURES_MARGIN_TYPE)}>
 							<RefButton noOutline size="medium">
 								{t('homepage.nav.start-trade')}
 							</RefButton>
 						</Link>
+						<span style={{ marginLeft: '10px' }}>
+							<UserButton afterSignOutUrl="/" />
+						</span>
 					</MenuContainer>
 				</Container>
 			</DesktopOnlyView>
