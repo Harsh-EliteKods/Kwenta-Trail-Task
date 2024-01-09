@@ -168,7 +168,7 @@ const TraderHistory: FC<TraderHistoryProps> = memo(({ positionHistory, compact, 
 					}
 				/>
 			</DesktopOnlyView>
-			<MobileOrTabletView> 
+			<MobileOrTabletView>
 				<MobileTable
 					data={data}
 					// @ts-ignore

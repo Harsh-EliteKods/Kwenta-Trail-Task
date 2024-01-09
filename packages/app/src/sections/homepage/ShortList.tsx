@@ -60,24 +60,19 @@ const ShortList = () => {
 				})
 
 				if (!response.ok) {
-					console.log('error in fetching')
 					throw new Error(`HTTP error! Status: ${response.status}`)
 				}
 
 				const responseData = await response.json()
 				setStats(responseData.data.data)
 				setLoading(false) // Update loading state to false after data is fetched
-				console.log('Harsh', responseData.data.data)
 			} catch (error) {
 				setLoading(false) // Update loading state to false in case of an error
-				console.error('Error fetching data:', error)
 			}
 		}
 
 		fetchData()
 	}, [])
-
-	console.log('Harsh', stats)
 
 	const router = useRouter()
 

@@ -50,7 +50,6 @@ const useGetFuturesCumulativeStats = (options?: UseQueryOptions<FuturesCumulativ
 					},
 				})
 				if (!response.ok) {
-					console.log('error in fetching')
 					throw new Error(`HTTP error! Status: ${response.status}`)
 				}
 
