@@ -55,3 +55,18 @@ export async function marketDetails() {
     };
   }
 }
+
+export async function history() {
+  try {
+    const name = 'history';
+    const user = await (await database()).collection('stats').findOne({ title: name });
+    console.log(user);
+    return user;
+  } catch (e) {
+    LoggerInstance.error(e);
+    throw {
+      message: 'Unauthorized Access',
+      status: 401,
+    };
+  }
+}
