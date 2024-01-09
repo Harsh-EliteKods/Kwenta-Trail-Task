@@ -91,7 +91,7 @@ export const MintingModal: FC<Props> = memo(({ referralCode, boostNftTier }) => 
 				loading={isMinting}
 				textTransform="none"
 				fullWidth
-				onClick={wallet ? (isL2 ? handleMintBoostNft : openChainModal) : openConnectModal}
+				// onClick={wallet ? (isL2 ? handleMintBoostNft : openChainModal) : openConnectModal}
 			>
 				<FlexDivRow columnGap="10px">
 					{wallet

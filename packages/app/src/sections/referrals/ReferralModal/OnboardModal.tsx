@@ -107,7 +107,7 @@ export const OnboardModal: FC<Props> = memo(({ boostNftTier }) => {
 				loading={false}
 				textTransform="none"
 				fullWidth
-				onClick={handleStart}
+				// onClick={handleStart}
 			>
 				<FlexDivRow columnGap="10px">
 					{wallet

@@ -60,7 +60,7 @@ const CreateReferralCodeModal: FC<Props> = memo(({ onDismiss }) => {
 				disabled={!value}
 				loading={isCreatingCode}
 				fullWidth
-				onClick={wallet ? (isL2 ? handleCreateReferralCode : openChainModal) : openConnectModal}
+				// onClick={wallet ? (isL2 ? handleCreateReferralCode : openChainModal) : openConnectModal}
 			>
 				{wallet
 					? isL2

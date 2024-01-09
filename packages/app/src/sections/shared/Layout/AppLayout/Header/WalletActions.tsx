@@ -26,7 +26,7 @@ export const WalletActions: FC = () => {
 			<ConnectButton
 				size="small"
 				variant="flat"
-				onClick={openAccountModal}
+				// onClick={openAccountModal}
 				data-testid="connect-wallet"
 				mono
 				isName={!!ensName}

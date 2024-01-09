@@ -56,7 +56,7 @@
 		"nav": {
 			"start-trade": "SignUp / SignIn",
 			"trade-now": "Trade now",
-			"wallet": "Connect Wallet",
+			"wallet": "Get Started",
 			"markets": "Markets",
 			"stats": "Stats",
 			"governance": {
@@ -886,7 +886,7 @@
 					"place-delayed-order": "Place Order",
 					"place-limit-order": "Place Limit Order",
 					"place-stop-order": "Place Stop Market Order",
-					"connect-wallet": "Connect Wallet",
+					"connect-wallet": "Execute",
 					"create-account": "Create Account",
 					"deposit-funds": "Deposit Funds"
 				},
@@ -958,8 +958,8 @@
 					"deposit": "Deposit",
 					"manage-button": "Manage",
 					"no-wallet-connected": "No wallet connected",
-					"no-wallet-connected-detail": "Connect wallet to deposit margin",
-					"connect-wallet-button": "Connect wallet",
+					"no-wallet-connected-detail": "Start to deposit margin",
+					"connect-wallet-button": "Execute",
 					"no-smart-account": "No account",
 					"no-smart-account-detail": "Create account to start trading",
 					"create-account-button": "Create account"
@@ -1548,10 +1548,10 @@
 			"coming-soon": "Soon"
 		},
 		"wallet": {
-			"connect-wallet": "Connect Wallet",
+			"connect-wallet": "Execute",
 			"account-info": "Account Info",
 			"switch-accounts": "Switch Accounts",
-			"disconnect-wallet": "Disconnect Wallet",
+			"disconnect-wallet": "Quit",
 			"unsupported-network": "Unsupported Network"
 		},
 		"tx-status": {
