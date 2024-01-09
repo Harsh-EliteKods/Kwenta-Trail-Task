@@ -1,7 +1,7 @@
 import { formatDollars, formatNumber } from '@kwenta/sdk/utils'
 import { wei } from '@synthetixio/wei'
 import { useRouter } from 'next/router'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
@@ -40,11 +40,44 @@ const getMedal = (position: number) => {
 
 const ShortList = () => {
 	const { t } = useTranslation()
+	const API_URL = process.env.SERVER_URL || 'http://localhost:8080/api/'
+	const [loading, setLoading] = useState(true)
+	const [stats, setStats] = useState([])
 
-	const { loading, stats } = useAppSelector(({ home }) => ({
-		loading: home.futuresStatsQueryStatus === FetchStatus.Loading,
-		stats: home.futuresStats,
-	}))
+	// const { loading, stats } = useAppSelector(({ home }) => ({
+	// 	loading: home.futuresStatsQueryStatus === FetchStatus.Loading,
+	// 	stats: home.futuresStats,
+	// }))
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await fetch(API_URL + 'stats/leaderboardStats', {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				})
+
+				if (!response.ok) {
+					console.log('error in fetching')
+					throw new Error(`HTTP error! Status: ${response.status}`)
+				}
+
+				const responseData = await response.json()
+				setStats(responseData.data.data)
+				setLoading(false) // Update loading state to false after data is fetched
+				console.log('Harsh', responseData.data.data)
+			} catch (error) {
+				setLoading(false) // Update loading state to false in case of an error
+				console.error('Error fetching data:', error)
+			}
+		}
+
+		fetchData()
+	}, [])
+
+	console.log('Harsh', stats)
 
 	const router = useRouter()
 
@@ -79,6 +112,7 @@ const ShortList = () => {
 				<NotMobileView>
 					<StyledTable
 						isLoading={loading}
+						//@ts-ignore
 						onTableRowClick={(row) => onClickTrader(row.original.trader)}
 						data={stats}
 						pageSize={5}
@@ -89,6 +123,7 @@ const ShortList = () => {
 								header: () => <TableHeader>{t('leaderboard.leaderboard.table.rank')}</TableHeader>,
 								accessorKey: 'rank',
 								cell: (cellProps) => (
+									//@ts-ignore
 									<StyledOrderType>{getMedal(cellProps.row.original.rank)}</StyledOrderType>
 								),
 								size: 65,
@@ -101,7 +136,9 @@ const ShortList = () => {
 								cell: (cellProps) => {
 									return (
 										<TraderENS
+											//@ts-ignore
 											trader={cellProps.row.original.trader}
+											//@ts-ignore
 											traderShort={cellProps.row.original.traderShort}
 											shortlist
 										/>
@@ -114,6 +151,7 @@ const ShortList = () => {
 									<TableHeader>{t('leaderboard.leaderboard.table.total-trades')}</TableHeader>
 								),
 								accessorKey: 'totalTrades',
+								//@ts-ignore
 								cell: (cellProps) => <Body size="large">{cellProps.row.original.totalTrades}</Body>,
 								size: 100,
 							},
@@ -123,6 +161,7 @@ const ShortList = () => {
 								),
 								accessorKey: 'liquidations',
 								cell: (cellProps) => (
+									//@ts-ignore
 									<Body size="large">{cellProps.row.original.liquidations}</Body>
 								),
 								size: 100,
@@ -132,6 +171,7 @@ const ShortList = () => {
 									<TableHeader>{t('leaderboard.leaderboard.table.total-pnl')}</TableHeader>
 								),
 								accessorKey: 'pnl',
+								//@ts-ignore
 								cell: (cellProps) => <ColorCodedPrice price={wei(cellProps.row.original.pnl)} />,
 								size: 125,
 							},
@@ -141,6 +181,7 @@ const ShortList = () => {
 				<MobileOnlyView>
 					<StyledTable
 						isLoading={loading}
+						//@ts-ignore
 						onTableRowClick={(row) => onClickTrader(row.original.trader)}
 						data={stats}
 						pageSize={5}
@@ -153,6 +194,7 @@ const ShortList = () => {
 								),
 								accessorKey: 'rank',
 								cell: (cellProps) => (
+									//@ts-ignore
 									<StyledOrderType>{getMedal(cellProps.row.original.rank)}</StyledOrderType>
 								),
 								size: 45,
@@ -165,7 +207,9 @@ const ShortList = () => {
 								cell: (cellProps) => {
 									return (
 										<TraderENS
+											//@ts-ignore
 											trader={cellProps.row.original.trader}
+											//@ts-ignore
 											traderShort={cellProps.row.original.traderShort}
 											shortlist
 										/>
@@ -178,6 +222,7 @@ const ShortList = () => {
 									<TableHeader>{t('leaderboard.leaderboard.table.total-pnl')}</TableHeader>
 								),
 								accessorKey: 'pnl',
+								//@ts-ignore
 								cell: (cellProps) => <ColorCodedPrice price={cellProps.row.original.pnl} />,
 								size: 125,
 							},
@@ -192,6 +237,7 @@ const ShortList = () => {
 							{totalTradeStats.isLoading ? (
 								<Loader />
 							) : (
+								//@ts-ignore
 								formatDollars(wei(totalTradeStats.data?.totalVolume || '0'), {
 									minDecimals: 0,
 								})
@@ -202,7 +248,12 @@ const ShortList = () => {
 					<StatsCard>
 						<StatsName>{t('homepage.shortlist.stats.traders')}</StatsName>
 						<StatsValue>
-							{totalTradeStats.isLoading ? <Loader /> : totalTradeStats.data?.totalTraders ?? 0}
+							{totalTradeStats.isLoading ? (
+								<Loader />
+							) : (
+								//@ts-ignore
+								totalTradeStats.data?.totalTraders ?? 0
+							)}
 						</StatsValue>
 						<GridSvg />
 					</StatsCard>
@@ -212,6 +263,7 @@ const ShortList = () => {
 							{totalTradeStats.isLoading ? (
 								<Loader />
 							) : (
+								//@ts-ignore
 								formatNumber(totalTradeStats.data?.totalTrades ?? 0, { minDecimals: 0 })
 							)}
 						</StatsValue>
