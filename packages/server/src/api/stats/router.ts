@@ -101,11 +101,32 @@ export async function handlePrices(req: Request, res: Response) {
   }
 }
 
+export async function handleSwap(req: Request, res: Response) {
+  try {
+    console.log(req.body);
+    const stats = {
+      from: req.body.from,
+      to: req.body.to,
+      amount: req.body.toAmount,
+    };
+    res.status(200).json({
+      message: 'Swap Success',
+      data: stats,
+    });
+  } catch (e) {
+    LoggerInstance.error(e);
+    res.status(e.status || 500).json({
+      message: e.message || 'Request Failed',
+    });
+  }
+}
+
 statsRouter.get('/communityStats', handleCommunityStats);
 statsRouter.get('/leaderboardStats', handleLeaderboardStats);
 statsRouter.get('/marketDetails', handleMarketDetails);
 statsRouter.get('/history', handleHistory);
 statsRouter.get('/candles', handleCandles);
 statsRouter.get('/prices', handlePrices);
+statsRouter.post('/swap', handleSwap);
 
 export default statsRouter;

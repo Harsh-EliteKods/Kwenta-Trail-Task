@@ -303,7 +303,7 @@
 			"1inch-button": "Visit 1inch"
 		},
 		"connect-wallet-card": {
-			"message": "Connect your wallet to start trading"
+			"message": "Press Execute to simulate transaction"
 		},
 		"footer-card": {
 			"market-closure": {
