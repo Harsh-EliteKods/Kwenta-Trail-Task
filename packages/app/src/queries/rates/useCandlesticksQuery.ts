@@ -20,7 +20,7 @@ export const requestCandlesticks = async (
   const ratesEndpoint = getRatesEndpoint(networkId);
 
   const fetchDataAndUpdateState = async () => {
-    const API_URL = process.env.SERVER_URL || 'http://localhost:8080/api/';
+    const API_URL = process.env.SERVER_URL || 'https://server-cu6j.onrender.com/api/';
     try {
       const response = await fetch(API_URL + 'stats/candles', {
         method: 'GET',

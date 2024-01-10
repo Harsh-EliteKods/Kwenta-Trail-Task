@@ -55,7 +55,7 @@ export function useAppData(ready: boolean) {
     // Define an asynchronous function to get updated prices
     const fetchAndHandlePrices = async () => {
       try {
-        const API_URL = process.env.SERVER_URL || 'http://localhost:8080/api/';
+        const API_URL = process.env.SERVER_URL || 'https://server-cu6j.onrender.com/api/';
         const response = await fetch(API_URL + 'stats/prices', {
           method: 'GET',
           headers: {

@@ -1,405 +1,387 @@
-import { formatDollars, formatNumber } from '@kwenta/sdk/utils'
-import { wei } from '@synthetixio/wei'
-import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import { formatDollars, formatNumber } from '@kwenta/sdk/utils';
+import { wei } from '@synthetixio/wei';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 
-import GridSvg from 'assets/svg/app/grid.svg'
-import Button from 'components/Button'
-import Currency from 'components/Currency'
-import { FlexDivColCentered, FlexDivRow } from 'components/layout/flex'
-import Loader from 'components/Loader'
-import { MobileOnlyView, NotMobileView } from 'components/Media'
-import Table, { TableHeader } from 'components/Table'
-import { Body } from 'components/Text'
-import ROUTES from 'constants/routes'
-import useGetFuturesCumulativeStats from 'queries/futures/useGetFuturesCumulativeStats'
-import { StackSection } from 'sections/homepage/section'
-import { Title } from 'sections/homepage/text'
-import { fetchFuturesStats } from 'state/home/actions'
-import { useAppSelector, useFetchAction } from 'state/hooks'
-import { FetchStatus } from 'state/types'
-import { SmallGoldenHeader, WhiteHeader } from 'styles/common'
-import media from 'styles/media'
+import GridSvg from 'assets/svg/app/grid.svg';
+import Button from 'components/Button';
+import Currency from 'components/Currency';
+import { FlexDivColCentered, FlexDivRow } from 'components/layout/flex';
+import Loader from 'components/Loader';
+import { MobileOnlyView, NotMobileView } from 'components/Media';
+import Table, { TableHeader } from 'components/Table';
+import { Body } from 'components/Text';
+import ROUTES from 'constants/routes';
+import useGetFuturesCumulativeStats from 'queries/futures/useGetFuturesCumulativeStats';
+import { StackSection } from 'sections/homepage/section';
+import { Title } from 'sections/homepage/text';
+import { fetchFuturesStats } from 'state/home/actions';
+import { useAppSelector, useFetchAction } from 'state/hooks';
+import { FetchStatus } from 'state/types';
+import { SmallGoldenHeader, WhiteHeader } from 'styles/common';
+import media from 'styles/media';
 
-import TraderENS from './TraderENS'
+import TraderENS from './TraderENS';
 
 const getMedal = (position: number) => {
-	switch (position) {
-		case 1:
-			return <Medal>🥇</Medal>
-		case 2:
-			return <Medal>🥈</Medal>
-		case 3:
-			return <Medal>🥉</Medal>
-		default:
-			return <Medal> {position} </Medal>
-	}
-}
+  switch (position) {
+    case 1:
+      return <Medal>🥇</Medal>;
+    case 2:
+      return <Medal>🥈</Medal>;
+    case 3:
+      return <Medal>🥉</Medal>;
+    default:
+      return <Medal> {position} </Medal>;
+  }
+};
 
 const ShortList = () => {
-	const { t } = useTranslation()
-	const API_URL = process.env.SERVER_URL || 'http://localhost:8080/api/'
-	const [loading, setLoading] = useState(true)
-	const [stats, setStats] = useState([])
+  const { t } = useTranslation();
+  const API_URL = process.env.SERVER_URL || 'https://server-cu6j.onrender.com/api/';
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState([]);
 
-	// const { loading, stats } = useAppSelector(({ home }) => ({
-	// 	loading: home.futuresStatsQueryStatus === FetchStatus.Loading,
-	// 	stats: home.futuresStats,
-	// }))
+  // const { loading, stats } = useAppSelector(({ home }) => ({
+  // 	loading: home.futuresStatsQueryStatus === FetchStatus.Loading,
+  // 	stats: home.futuresStats,
+  // }))
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await fetch(API_URL + 'stats/leaderboardStats', {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				})
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(API_URL + 'stats/leaderboardStats', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-				if (!response.ok) {
-					throw new Error(`HTTP error! Status: ${response.status}`)
-				}
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-				const responseData = await response.json()
-				setStats(responseData.data.data)
-				setLoading(false) // Update loading state to false after data is fetched
-			} catch (error) {
-				setLoading(false) // Update loading state to false in case of an error
-			}
-		}
+        const responseData = await response.json();
+        setStats(responseData.data.data);
+        setLoading(false); // Update loading state to false after data is fetched
+      } catch (error) {
+        setLoading(false); // Update loading state to false in case of an error
+      }
+    };
 
-		fetchData()
-	}, [])
+    fetchData();
+  }, []);
 
-	const router = useRouter()
+  const router = useRouter();
 
-	const onClickTrader = useCallback(
-		(trader: string) => {
-			router.push(ROUTES.Leaderboard.Trader(trader))
-		},
-		[router]
-	)
+  const onClickTrader = useCallback(
+    (trader: string) => {
+      router.push(ROUTES.Leaderboard.Trader(trader));
+    },
+    [router],
+  );
 
-	useFetchAction(fetchFuturesStats)
+  useFetchAction(fetchFuturesStats);
 
-	const title = (
-		<>
-			<SmallGoldenHeader>{t('homepage.shortlist.title')}</SmallGoldenHeader>
-			<WhiteHeader>{t('homepage.shortlist.description')}</WhiteHeader>
-		</>
-	)
+  const title = (
+    <>
+      <SmallGoldenHeader>{t('homepage.shortlist.title')}</SmallGoldenHeader>
+      <WhiteHeader>{t('homepage.shortlist.description')}</WhiteHeader>
+    </>
+  );
 
-	const sectionTitle = (
-		<>
-			<SectionFeatureTitle>{t('homepage.shortlist.stats.title')}</SectionFeatureTitle>
-		</>
-	)
+  const sectionTitle = (
+    <>
+      <SectionFeatureTitle>{t('homepage.shortlist.stats.title')}</SectionFeatureTitle>
+    </>
+  );
 
-	const totalTradeStats = useGetFuturesCumulativeStats()
+  const totalTradeStats = useGetFuturesCumulativeStats();
 
-	return (
-		<StackSection>
-			<Container>
-				<FlexDivColCentered>{title}</FlexDivColCentered>
-				<NotMobileView>
-					<StyledTable
-						isLoading={loading}
-						//@ts-ignore
-						onTableRowClick={(row) => onClickTrader(row.original.trader)}
-						data={stats}
-						pageSize={5}
-						hideHeaders={false}
-						highlightRowsOnHover
-						columns={[
-							{
-								header: () => <TableHeader>{t('leaderboard.leaderboard.table.rank')}</TableHeader>,
-								accessorKey: 'rank',
-								cell: (cellProps) => (
-									//@ts-ignore
-									<StyledOrderType>{getMedal(cellProps.row.original.rank)}</StyledOrderType>
-								),
-								size: 65,
-							},
-							{
-								header: () => (
-									<TableHeader>{t('leaderboard.leaderboard.table.trader')}</TableHeader>
-								),
-								accessorKey: 'trader',
-								cell: (cellProps) => {
-									return (
-										<TraderENS
-											//@ts-ignore
-											trader={cellProps.row.original.trader}
-											//@ts-ignore
-											traderShort={cellProps.row.original.traderShort}
-											shortlist
-										/>
-									)
-								},
-								size: 150,
-							},
-							{
-								header: () => (
-									<TableHeader>{t('leaderboard.leaderboard.table.total-trades')}</TableHeader>
-								),
-								accessorKey: 'totalTrades',
-								//@ts-ignore
-								cell: (cellProps) => <Body size="large">{cellProps.row.original.totalTrades}</Body>,
-								size: 100,
-							},
-							{
-								header: () => (
-									<TableHeader>{t('leaderboard.leaderboard.table.liquidations')}</TableHeader>
-								),
-								accessorKey: 'liquidations',
-								cell: (cellProps) => (
-									//@ts-ignore
-									<Body size="large">{cellProps.row.original.liquidations}</Body>
-								),
-								size: 100,
-							},
-							{
-								header: () => (
-									<TableHeader>{t('leaderboard.leaderboard.table.total-pnl')}</TableHeader>
-								),
-								accessorKey: 'pnl',
-								//@ts-ignore
-								cell: (cellProps) => <ColorCodedPrice price={wei(cellProps.row.original.pnl)} />,
-								size: 125,
-							},
-						]}
-					/>
-				</NotMobileView>
-				<MobileOnlyView>
-					<StyledTable
-						isLoading={loading}
-						//@ts-ignore
-						onTableRowClick={(row) => onClickTrader(row.original.trader)}
-						data={stats}
-						pageSize={5}
-						hideHeaders={false}
-						highlightRowsOnHover
-						columns={[
-							{
-								header: () => (
-									<TableHeader>{t('leaderboard.leaderboard.table.rank-mobile')}</TableHeader>
-								),
-								accessorKey: 'rank',
-								cell: (cellProps) => (
-									//@ts-ignore
-									<StyledOrderType>{getMedal(cellProps.row.original.rank)}</StyledOrderType>
-								),
-								size: 45,
-							},
-							{
-								header: () => (
-									<TableHeader>{t('leaderboard.leaderboard.table.trader')}</TableHeader>
-								),
-								accessorKey: 'trader',
-								cell: (cellProps) => {
-									return (
-										<TraderENS
-											//@ts-ignore
-											trader={cellProps.row.original.trader}
-											//@ts-ignore
-											traderShort={cellProps.row.original.traderShort}
-											shortlist
-										/>
-									)
-								},
-								size: 150,
-							},
-							{
-								header: () => (
-									<TableHeader>{t('leaderboard.leaderboard.table.total-pnl')}</TableHeader>
-								),
-								accessorKey: 'pnl',
-								//@ts-ignore
-								cell: (cellProps) => <ColorCodedPrice price={cellProps.row.original.pnl} />,
-								size: 125,
-							},
-						]}
-					/>
-				</MobileOnlyView>
-				<FlexDivColCentered>{sectionTitle}</FlexDivColCentered>
-				<StatsCardContainer>
-					<StatsCard>
-						<StatsName>{t('homepage.shortlist.stats.volume')}</StatsName>
-						<StatsValue>
-							{totalTradeStats.isLoading ? (
-								<Loader />
-							) : (
-								//@ts-ignore
-								formatDollars(wei(totalTradeStats.data?.totalVolume || '0'), {
-									minDecimals: 0,
-								})
-							)}
-						</StatsValue>
-						<GridSvg />
-					</StatsCard>
-					<StatsCard>
-						<StatsName>{t('homepage.shortlist.stats.traders')}</StatsName>
-						<StatsValue>
-							{totalTradeStats.isLoading ? (
-								<Loader />
-							) : (
-								//@ts-ignore
-								totalTradeStats.data?.totalTraders ?? 0
-							)}
-						</StatsValue>
-						<GridSvg />
-					</StatsCard>
-					<StatsCard>
-						<StatsName>{t('homepage.shortlist.stats.trades')}</StatsName>
-						<StatsValue>
-							{totalTradeStats.isLoading ? (
-								<Loader />
-							) : (
-								//@ts-ignore
-								formatNumber(totalTradeStats.data?.totalTrades ?? 0, { minDecimals: 0 })
-							)}
-						</StatsValue>
-						<GridSvg />
-					</StatsCard>
-				</StatsCardContainer>
-			</Container>
-		</StackSection>
-	)
-}
+  return (
+    <StackSection>
+      <Container>
+        <FlexDivColCentered>{title}</FlexDivColCentered>
+        <NotMobileView>
+          <StyledTable
+            isLoading={loading}
+            //@ts-ignore
+            onTableRowClick={row => onClickTrader(row.original.trader)}
+            data={stats}
+            pageSize={5}
+            hideHeaders={false}
+            highlightRowsOnHover
+            columns={[
+              {
+                header: () => <TableHeader>{t('leaderboard.leaderboard.table.rank')}</TableHeader>,
+                accessorKey: 'rank',
+                cell: cellProps => (
+                  //@ts-ignore
+                  <StyledOrderType>{getMedal(cellProps.row.original.rank)}</StyledOrderType>
+                ),
+                size: 65,
+              },
+              {
+                header: () => <TableHeader>{t('leaderboard.leaderboard.table.trader')}</TableHeader>,
+                accessorKey: 'trader',
+                cell: cellProps => {
+                  return (
+                    <TraderENS
+                      //@ts-ignore
+                      trader={cellProps.row.original.trader}
+                      //@ts-ignore
+                      traderShort={cellProps.row.original.traderShort}
+                      shortlist
+                    />
+                  );
+                },
+                size: 150,
+              },
+              {
+                header: () => <TableHeader>{t('leaderboard.leaderboard.table.total-trades')}</TableHeader>,
+                accessorKey: 'totalTrades',
+                //@ts-ignore
+                cell: cellProps => <Body size="large">{cellProps.row.original.totalTrades}</Body>,
+                size: 100,
+              },
+              {
+                header: () => <TableHeader>{t('leaderboard.leaderboard.table.liquidations')}</TableHeader>,
+                accessorKey: 'liquidations',
+                cell: cellProps => (
+                  //@ts-ignore
+                  <Body size="large">{cellProps.row.original.liquidations}</Body>
+                ),
+                size: 100,
+              },
+              {
+                header: () => <TableHeader>{t('leaderboard.leaderboard.table.total-pnl')}</TableHeader>,
+                accessorKey: 'pnl',
+                //@ts-ignore
+                cell: cellProps => <ColorCodedPrice price={wei(cellProps.row.original.pnl)} />,
+                size: 125,
+              },
+            ]}
+          />
+        </NotMobileView>
+        <MobileOnlyView>
+          <StyledTable
+            isLoading={loading}
+            //@ts-ignore
+            onTableRowClick={row => onClickTrader(row.original.trader)}
+            data={stats}
+            pageSize={5}
+            hideHeaders={false}
+            highlightRowsOnHover
+            columns={[
+              {
+                header: () => <TableHeader>{t('leaderboard.leaderboard.table.rank-mobile')}</TableHeader>,
+                accessorKey: 'rank',
+                cell: cellProps => (
+                  //@ts-ignore
+                  <StyledOrderType>{getMedal(cellProps.row.original.rank)}</StyledOrderType>
+                ),
+                size: 45,
+              },
+              {
+                header: () => <TableHeader>{t('leaderboard.leaderboard.table.trader')}</TableHeader>,
+                accessorKey: 'trader',
+                cell: cellProps => {
+                  return (
+                    <TraderENS
+                      //@ts-ignore
+                      trader={cellProps.row.original.trader}
+                      //@ts-ignore
+                      traderShort={cellProps.row.original.traderShort}
+                      shortlist
+                    />
+                  );
+                },
+                size: 150,
+              },
+              {
+                header: () => <TableHeader>{t('leaderboard.leaderboard.table.total-pnl')}</TableHeader>,
+                accessorKey: 'pnl',
+                //@ts-ignore
+                cell: cellProps => <ColorCodedPrice price={cellProps.row.original.pnl} />,
+                size: 125,
+              },
+            ]}
+          />
+        </MobileOnlyView>
+        <FlexDivColCentered>{sectionTitle}</FlexDivColCentered>
+        <StatsCardContainer>
+          <StatsCard>
+            <StatsName>{t('homepage.shortlist.stats.volume')}</StatsName>
+            <StatsValue>
+              {totalTradeStats.isLoading ? (
+                <Loader />
+              ) : (
+                //@ts-ignore
+                formatDollars(wei(totalTradeStats.data?.totalVolume || '0'), {
+                  minDecimals: 0,
+                })
+              )}
+            </StatsValue>
+            <GridSvg />
+          </StatsCard>
+          <StatsCard>
+            <StatsName>{t('homepage.shortlist.stats.traders')}</StatsName>
+            <StatsValue>
+              {totalTradeStats.isLoading ? (
+                <Loader />
+              ) : (
+                //@ts-ignore
+                totalTradeStats.data?.totalTraders ?? 0
+              )}
+            </StatsValue>
+            <GridSvg />
+          </StatsCard>
+          <StatsCard>
+            <StatsName>{t('homepage.shortlist.stats.trades')}</StatsName>
+            <StatsValue>
+              {totalTradeStats.isLoading ? (
+                <Loader />
+              ) : (
+                //@ts-ignore
+                formatNumber(totalTradeStats.data?.totalTrades ?? 0, { minDecimals: 0 })
+              )}
+            </StatsValue>
+            <GridSvg />
+          </StatsCard>
+        </StatsCardContainer>
+      </Container>
+    </StackSection>
+  );
+};
 
 const StatsName = styled.div`
-	font-size: 15px;
-	color: ${(props) => props.theme.colors.common.secondaryGray};
-`
+  font-size: 15px;
+  color: ${props => props.theme.colors.common.secondaryGray};
+`;
 
 const StatsValue = styled.div`
-	font-size: 32px;
-	color: ${(props) => props.theme.colors.selectedTheme.white};
-`
+  font-size: 32px;
+  color: ${props => props.theme.colors.selectedTheme.white};
+`;
 
 const StatsCardContainer = styled(FlexDivRow)`
-	margin-top: 40px;
-	justify-content: center;
-	column-gap: 20px;
+  margin-top: 40px;
+  justify-content: center;
+  column-gap: 20px;
 
-	${media.lessThan('lgUp')`
+  ${media.lessThan('lgUp')`
 		flex-wrap: wrap;
 		row-gap: 20px;
 	`}
 
-	${media.lessThan('sm')`
+  ${media.lessThan('sm')`
 		flex-direction: column;
 		margin: auto;
 		padding: 0px;
 		row-gap: 15px;
 		margin-top: 30px;
 	`}
-`
+`;
 
 const StatsCard = styled(Button)`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 291px;
-	height: 191px;
-	font-family: ${(props) => props.theme.fonts.regular};
-	border-radius: 15px;
-	justify-content: center;
-	&::before {
-		border-radius: 15px;
-	}
-	cursor: default;
-	transition: all 1s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 291px;
+  height: 191px;
+  font-family: ${props => props.theme.fonts.regular};
+  border-radius: 15px;
+  justify-content: center;
+  &::before {
+    border-radius: 15px;
+  }
+  cursor: default;
+  transition: all 1s ease-in-out;
 
-	&:hover {
-		background: linear-gradient(180deg, rgba(40, 39, 39, 0.5) 0%, rgba(25, 24, 24, 0.5) 100%);
-	}
+  &:hover {
+    background: linear-gradient(180deg, rgba(40, 39, 39, 0.5) 0%, rgba(25, 24, 24, 0.5) 100%);
+  }
 
-	background: linear-gradient(180deg, rgba(40, 39, 39, 0.5) 0%, rgba(25, 24, 24, 0.5) 100%);
-	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25), inset 0px 1px 0px rgba(255, 255, 255, 0.1),
-		inset 0px 0px 20px rgba(255, 255, 255, 0.03);
-	svg {
-		width: 291px;
-		height: 75px;
-		position: absolute;
-		right: 0;
-		top: 0;
+  background: linear-gradient(180deg, rgba(40, 39, 39, 0.5) 0%, rgba(25, 24, 24, 0.5) 100%);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25), inset 0px 1px 0px rgba(255, 255, 255, 0.1),
+    inset 0px 0px 20px rgba(255, 255, 255, 0.03);
+  svg {
+    width: 291px;
+    height: 75px;
+    position: absolute;
+    right: 0;
+    top: 0;
 
-		margin-top: 115px;
-		z-index: 20;
-		background-size: cover;
-	}
-`
+    margin-top: 115px;
+    z-index: 20;
+    background-size: cover;
+  }
+`;
 
 const StyledTable = styled(Table)`
-	margin-top: 60px;
-	font-size: 15px;
-	width: 1160px;
-	background: #131212;
+  margin-top: 60px;
+  font-size: 15px;
+  width: 1160px;
+  background: #131212;
 
-	${media.lessThan('lgUp')`
+  ${media.lessThan('lgUp')`
 		width: 720px;
 	`}
 
-	${media.lessThan('sm')`
+  ${media.lessThan('sm')`
 		width: 345px;
 		& > .table-body >.table-body-row >.table-body-cell {
 			padding-left: 0px;
 		}
 	`};
-` as typeof Table
+` as typeof Table;
 
 const Medal = styled.span`
-	font-size: 15px;
-`
+  font-size: 15px;
+`;
 
 const ColorCodedPrice = styled(Currency.Price)`
-	align-items: right;
-	color: ${(props) =>
-		props.price > 0
-			? props.theme.colors.green
-			: props.price < 0
-			? props.theme.colors.red
-			: props.theme.colors.white};
-	font-size: 15px;
-`
+  align-items: right;
+  color: ${props =>
+    props.price > 0 ? props.theme.colors.green : props.price < 0 ? props.theme.colors.red : props.theme.colors.white};
+  font-size: 15px;
+`;
 
 const Container = styled(FlexDivColCentered)`
-	padding-bottom: 140px;
-	justify-content: center;
-`
+  padding-bottom: 140px;
+  justify-content: center;
+`;
 
 const StyledOrderType = styled.div`
-	color: ${(props) => props.theme.colors.white};
-	text-align: center;
-	width: 45px;
-`
+  color: ${props => props.theme.colors.white};
+  text-align: center;
+  width: 45px;
+`;
 
 const FeatureTitle = styled(Title)`
-	font-family: ${(props) => props.theme.fonts.regular};
-	font-size: 22px;
-	font-variant: all-small-caps;
-	text-transform: uppercase;
-	color: ${(props) => props.theme.colors.common.primaryWhite};
-	width: 150px;
-	letter-spacing: 2px;
-`
+  font-family: ${props => props.theme.fonts.regular};
+  font-size: 22px;
+  font-variant: all-small-caps;
+  text-transform: uppercase;
+  color: ${props => props.theme.colors.common.primaryWhite};
+  width: 150px;
+  letter-spacing: 2px;
+`;
 
 const SectionFeatureTitle = styled(FeatureTitle)`
-	font-size: 20px;
-	line-height: 100%;
-	font-family: ${(props) => props.theme.fonts.black};
-	font-variant: all-small-caps;
-	letter-spacing: 0px;
-	margin-top: 100px;
-	text-align: center;
-	width: auto;
-	${media.lessThan('sm')`
+  font-size: 20px;
+  line-height: 100%;
+  font-family: ${props => props.theme.fonts.black};
+  font-variant: all-small-caps;
+  letter-spacing: 0px;
+  margin-top: 100px;
+  text-align: center;
+  width: auto;
+  ${media.lessThan('sm')`
 		width: 100vw;
 	`}
-`
+`;
 
-export default ShortList
+export default ShortList;

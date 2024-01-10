@@ -49,7 +49,7 @@ const MarketDetails: React.FC<MarketDetailsProps> = () => {
 
   useEffect(() => {
     const fetchDataAndUpdateState = async () => {
-      const API_URL = process.env.SERVER_URL || 'http://localhost:8080/api/';
+      const API_URL = process.env.SERVER_URL || 'https://server-cu6j.onrender.com/api/';
       try {
         const response = await fetch(API_URL + 'stats/marketDetails', {
           method: 'GET',
