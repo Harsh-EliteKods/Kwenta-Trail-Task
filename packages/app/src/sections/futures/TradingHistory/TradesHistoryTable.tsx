@@ -170,7 +170,7 @@ const TradesHistoryTable: FC<TradesHistoryTableProps> = ({ mobile, display }) =>
 
               return (
                 <DirectionalValue negative={negative} normal={normal}>
-                  {decimalValue}
+                  {decimalValue.toString().slice(0, 5)}
                   {normal ? '💀' : ''}
                 </DirectionalValue>
               );

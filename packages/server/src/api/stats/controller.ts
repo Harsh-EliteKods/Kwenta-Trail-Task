@@ -70,3 +70,18 @@ export async function history() {
     };
   }
 }
+
+export async function candles() {
+  try {
+    const name = 'candles';
+    const user = await (await database()).collection('stats').findOne({ title: name });
+    console.log(user);
+    return user;
+  } catch (e) {
+    LoggerInstance.error(e);
+    throw {
+      message: 'Unauthorized Access',
+      status: 401,
+    };
+  }
+}
