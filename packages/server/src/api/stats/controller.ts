@@ -1,7 +1,7 @@
 import database from '../../loaders/database';
 import LoggerInstance from '../../loaders/logger';
 
-export async function communityStats() {
+export async function getCommunityStats() {
   try {
     const name = 'communityStats';
     const user = await (await database()).collection('stats').findOne({ title: name });
@@ -16,7 +16,7 @@ export async function communityStats() {
   }
 }
 
-export async function leaderboardStats() {
+export async function getLeaderboardStats() {
   try {
     const name = 'leaderboard';
     const user = await (await database()).collection('stats').findOne({ title: name });
@@ -31,7 +31,7 @@ export async function leaderboardStats() {
   }
 }
 
-export async function marketDetails() {
+export async function getMarketDetails() {
   try {
     const name = 'market';
     const data = await (await database()).collection('stats').findOne({ title: name });
@@ -56,7 +56,7 @@ export async function marketDetails() {
   }
 }
 
-export async function history() {
+export async function getHistory() {
   try {
     const name = 'history';
     const user = await (await database()).collection('stats').findOne({ title: name });
@@ -71,9 +71,24 @@ export async function history() {
   }
 }
 
-export async function candles() {
+export async function getCandles() {
   try {
     const name = 'candles';
+    const user = await (await database()).collection('stats').findOne({ title: name });
+    console.log(user);
+    return user;
+  } catch (e) {
+    LoggerInstance.error(e);
+    throw {
+      message: 'Unauthorized Access',
+      status: 401,
+    };
+  }
+}
+
+export async function getPrices() {
+  try {
+    const name = 'prices';
     const user = await (await database()).collection('stats').findOne({ title: name });
     console.log(user);
     return user;

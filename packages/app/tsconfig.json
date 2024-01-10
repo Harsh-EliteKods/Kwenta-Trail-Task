@@ -19,10 +19,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": "src",
-    "incremental": true
+    "incremental": true,
+    "typeRoots": ["node_modules/@types", "custom_typings"]
   },
   "exclude": [
-    "node_modules",
+    "node_modules/@types/*",
     "testing/e2e/helper/*.ts"
   ],
   "include": [

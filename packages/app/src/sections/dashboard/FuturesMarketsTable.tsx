@@ -39,7 +39,7 @@ const FuturesMarketsTable: React.FC<FuturesMarketsTableProps> = ({ search }) => 
   const pricesInfo = useAppSelector(selectOffchainPricesInfo);
   const markPrices = useAppSelector(selectMarkPrices);
 
-  let data = useMemo(() => {
+  const data = useMemo(() => {
     const lowerSearch = search?.toLowerCase();
     const markets: FuturesMarket[] = lowerSearch
       ? (futuresMarkets as FuturesMarket[]).filter(

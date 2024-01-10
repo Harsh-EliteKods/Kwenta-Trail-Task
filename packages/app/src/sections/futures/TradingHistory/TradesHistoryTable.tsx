@@ -26,7 +26,7 @@ enum TableColumnAccessor {
 const TradesHistoryTable: FC<TradesHistoryTableProps> = ({ mobile, display }) => {
   const { t } = useTranslation();
   const marketKey = useAppSelector(selectMarketKey);
-  const futuresTradesQuery = useGetFuturesTrades(marketKey);
+  // const futuresTradesQuery = useGetFuturesTrades(marketKey);
 
   const [data, setData] = useState([]);
 
@@ -59,26 +59,26 @@ const TradesHistoryTable: FC<TradesHistoryTableProps> = ({ mobile, display }) =>
 
   const observer = useRef<IntersectionObserver | null>(null);
 
-  const lastElementRef = useCallback(
-    (node: any) => {
-      if (futuresTradesQuery.isLoading || data.length < 16) return;
-      if (observer) {
-        if (observer.current) {
-          observer.current.disconnect();
-        }
+  // const lastElementRef = useCallback(
+  //   (node: any) => {
+  //     if (futuresTradesQuery.isLoading || data.length < 16) return;
+  //     if (observer) {
+  //       if (observer.current) {
+  //         observer.current.disconnect();
+  //       }
 
-        observer.current = new IntersectionObserver(entries => {
-          if (entries[0].isIntersecting) {
-            futuresTradesQuery.fetchNextPage();
-          }
-        });
-      }
-      if (node) {
-        observer.current?.observe(node);
-      }
-    },
-    [futuresTradesQuery, data],
-  );
+  //       observer.current = new IntersectionObserver(entries => {
+  //         if (entries[0].isIntersecting) {
+  //           futuresTradesQuery.fetchNextPage();
+  //         }
+  //       });
+  //     }
+  //     if (node) {
+  //       observer.current?.observe(node);
+  //     }
+  //   },
+  //   [futuresTradesQuery, data],
+  // );
 
   const calTimeDelta = useCallback(
     (time: number) => {
@@ -138,8 +138,8 @@ const TradesHistoryTable: FC<TradesHistoryTableProps> = ({ mobile, display }) =>
     <HistoryContainer $display={mobile || display} mobile={mobile}>
       <StyledTable
         data={data}
-        isLoading={futuresTradesQuery.isLoading}
-        lastRef={lastElementRef}
+        // isLoading={futuresTradesQuery.isLoading}
+        // lastRef={lastElementRef}
         onTableRowClick={_row => {
           //@ts-ignore
           return _row.original.id !== NO_VALUE

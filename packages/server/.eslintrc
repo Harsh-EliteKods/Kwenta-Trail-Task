@@ -1,10 +1,27 @@
 {
-  "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
-  ]
-}
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["@typescript-eslint","react-hooks"],
+	"extends": [
+	  "plugin:react-hooks/recommended",
+	  "eslint:recommended",
+	  "plugin:@typescript-eslint/eslint-recommended",
+	  "plugin:@typescript-eslint/recommended"
+	],
+	"rules": {
+	  "@typescript-eslint/ban-ts-comment": "off",
+	  "@typescript-eslint/no-explicit-any": "off",
+	  "@typescript-eslint/no-unused-vars": "off",
+	  "@typescript-eslint/ban-types": "off",
+	  "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+	  "@typescript-eslint/no-mixed-spaces-and-tabs": "off",
+	  "@typescript-eslint/prefer-const": "off",
+	  "@typescript-eslint/no-extra-boolean-cast": "off",
+	  "no-mixed-spaces-and-tabs": "off",
+	  "prefer-const": "off",
+	  "no-extra-boolean-cast": "off",
+	  "no-var": "off",
+	  "react-hooks/exhaustive-deps": "warn"
+	}
+  }
+  

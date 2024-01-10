@@ -29,8 +29,6 @@ type Props = {
 const TransferInputModal: FC<Props> = memo(({ onDismiss, totalEntries, totalAmount }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { openChainModal } = useChainModal();
-  const { openConnectModal } = useConnectModal();
   const isL2 = useIsL2();
   const wallet = useAppSelector(selectWallet);
   const isTransferring = useAppSelector(selectIsTransferring);
@@ -43,15 +41,15 @@ const TransferInputModal: FC<Props> = memo(({ onDismiss, totalEntries, totalAmou
 
   const isRecipientValid = useMemo(() => isAddress(recipient), [recipient]);
 
-  const handleTransfer = useCallback(() => {
-    if (isRecipientValid) {
-      if (totalEntries.length > 1) {
-        dispatch(bulkTransferEscrowEntries({ recipient, entries: totalEntries }));
-      } else if (totalEntries.length === 1) {
-        dispatch(transferEscrowEntry({ recipient, entry: totalEntries[0] }));
-      }
-    }
-  }, [isRecipientValid, totalEntries, dispatch, recipient]);
+  // const handleTransfer = useCallback(() => {
+  //   if (isRecipientValid) {
+  //     if (totalEntries.length > 1) {
+  //       dispatch(bulkTransferEscrowEntries({ recipient, entries: totalEntries }));
+  //     } else if (totalEntries.length === 1) {
+  //       dispatch(transferEscrowEntry({ recipient, entry: totalEntries[0] }));
+  //     }
+  //   }
+  // }, [isRecipientValid, totalEntries, dispatch, recipient]);
 
   return (
     <StyledBaseModal title={t('dashboard.stake.tabs.escrow.transfer-modal.title')} isOpen onDismiss={onDismiss}>
